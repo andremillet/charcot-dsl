@@ -4,7 +4,7 @@ A domain-specific language (DSL) designed in Rust to streamline physician workfl
 
 ## Overview
 
-The Medical DSL simplifies physician workflows by providing a command-line interface with natural language commands. Key features include:
+The Charcot DSL simplifies physician workflows by providing a command-line interface with natural language commands. Key features include:
 
 - Fetching and displaying appointment schedules
 - Managing patient encounters with structured documentation
@@ -25,8 +25,8 @@ The DSL prioritizes simplicity, extensibility, and integration with Rust's safet
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/medical-dsl.git
-cd medical-dsl
+git clone https://github.com/andremillet/charcot-dsl.git
+cd charcot-dsl
 
 # Build the project
 cargo build --release
@@ -107,7 +107,7 @@ The `register` command supports the following sections:
 
 ## FHIR Compatibility
 
-The Medical DSL saves encounter data in FHIR-compatible JSON format. Each encounter is serialized as a FHIR Encounter resource with appropriate sections, diagnoses, and clinical actions.
+The Charcot DSL saves encounter data in FHIR-compatible JSON format. Each encounter is serialized as a FHIR Encounter resource with appropriate sections, diagnoses, and clinical actions.
 
 Encounter files are saved with a `.med` extension in the current directory and follow FHIR R4 specifications.
 
