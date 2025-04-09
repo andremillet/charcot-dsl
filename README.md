@@ -1,4 +1,4 @@
-# Medical DSL
+# Charcot DSL
 
 A domain-specific language (DSL) designed in Rust to streamline physician workflows. This DSL allows physicians to manage appointments and patient encounters using intuitive commands.
 
