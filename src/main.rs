@@ -1,5 +1,4 @@
-rust
-use actix_web::{web, App, HttpResponse, HttpServer, Responder, Result as ActixResult};
+use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use serde_json::{Value};
