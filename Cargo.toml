@@ -8,6 +8,8 @@ edition = "2021"
 [dependencies]
 actix-web = "4"
 serde = { version = "1.0", features = ["derive"] }
+rust-embed = "8.2.0"
+actix-web-static-files = "5.0.0"
 serde_json = "1.0"
 # Add a dependency for the charcot-dsl crate here if you have one.
 # For now, we'll create a placeholder module within this project.
