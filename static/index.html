@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charcot REPL</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Charcot DSL REPL</h1>
+    <textarea id="commandInput" rows="5" cols="50"></textarea><br>
+    <button id="submitButton">Execute</button>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById("submitButton").addEventListener("click", function() {
+            const command = document.getElementById("commandInput").value;
+            fetch("/api/execute", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ command: command })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const outputDiv = document.getElementById("output");
+                if (data.output) {
+                    outputDiv.textContent = data.output;
+                } else if (data.error) {
+                    outputDiv.textContent = "Error: " + data.error;
+                } else {
+                    outputDiv.textContent = "An unexpected error occurred.";
+                }
+            })
+            .catch(error => {
+                document.getElementById("output").textContent = "Network error: Could not connect to the server.";
+            });
+        });
+    </script>
+</body>
+</html>

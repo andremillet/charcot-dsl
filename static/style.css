@@ -1,0 +1,30 @@
+body {
+    font-family: sans-serif;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    text-align: center;
+}
+
+#commandInput {
+    width: 500px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-family: monospace;
+}
+
+#submitButton {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #eee;
+    cursor: pointer;
+}
+
+#output {
+    width: 500px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-family: monospace;
+    white-space: pre-wrap; /* Preserve whitespace and line breaks */
+}

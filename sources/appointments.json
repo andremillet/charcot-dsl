@@ -1,0 +1,9 @@
+[
+  {
+    "encounter_id": "E123",
+    "patient_id": "P456",
+    "encounter_date": "2024-01-01",
+    "provider_id": "D789",
+    "status": "scheduled"
+  }
+]

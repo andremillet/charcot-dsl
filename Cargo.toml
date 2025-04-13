@@ -1,0 +1,13 @@
+[package]
+name = "charcot-web-repl"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "4"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+# Add a dependency for the charcot-dsl crate here if you have one.
+# For now, we'll create a placeholder module within this project.

@@ -1,0 +1,114 @@
+# Fetch Command Definition
+# Version: 1.0
+
+COMMAND: fetch
+CATEGORY: data_retrieval
+
+# Design Philosophy
+PHILOSOPHY:
+  - "Convention over configuration: sensible defaults that work out of the box"
+  - "Explicit overrides: provide freedom when defaults don't fit"
+  - "Consistent response patterns: all commands return structured data"
+
+# Parameters
+PARAMETERS:
+  - NAME: entity
+    TYPE: string
+    REQUIRED: true
+    OPTIONS: ["appointments", "patients", "encounters"]
+    DESCRIPTION: "The medical entity type to retrieve"
+
+  - NAME: timeframe
+    TYPE: string
+    REQUIRED: false
+    DEFAULT: "day"
+    OPTIONS: ["day", "week", "month", "period"]
+    DESCRIPTION: "Time period to include in the query"
+    
+  - NAME: period
+    TYPE: string
+    REQUIRED: false
+    FORMAT: "period(YYYY-MM-DD to YYYY-MM-DD)"
+    DESCRIPTION: "Custom date range for filtering results"
+    
+  - NAME: from
+    TYPE: string
+    REQUIRED: false
+    DEFAULT: null
+    DESCRIPTION: "Custom source location, overrides the default /sources path"
+
+# Data Sources
+SOURCES:
+  - database
+  - api
+  - local_files
+
+# Default Source Location
+DEFAULT_SOURCE: "/sources"
+
+# Search Logic
+SEARCH:
+  STRATEGY: hierarchical
+  ORDER:
+    - local_files
+    - database
+    - api
+  
+# Filtering Logic
+FILTER:
+  WHEN: "entity == appointments"
+  TIMEFRAME:
+    - day: "encounter.date == date.today"
+    - week: "encounter.date >= date.today - 7 && encounter.date <= date.today"
+    - month: "encounter.date.month == date.today.month && encounter.date.year == date.today.year"
+    - period: "encounter.date >= period.start_date && encounter.date <= period.end_date"
+
+# Response Format
+RESPONSE:
+  FORMAT: json
+  REQUIRED: true  # All commands must define expected response
+  STRUCTURE: [
+    {
+      "encounter_id": "string",
+      "patient_id": "string",
+      "encounter_date": "date",
+      "provider_id": "string",
+      "status": "string",
+      "type": "string",
+      "notes": "string?",
+      "location": "string?"
+    }
+  ]
+
+# Examples
+EXAMPLES:
+  - COMMAND: "fetch appointments"
+    DESCRIPTION: "Retrieves all appointments scheduled for today from /sources"
+  
+  - COMMAND: "fetch appointments week"
+    DESCRIPTION: "Retrieves all appointments scheduled for the current week from /sources"
+  
+  - COMMAND: "fetch appointments month"
+    DESCRIPTION: "Retrieves all appointments scheduled for the current month from /sources"
+    
+  - COMMAND: "fetch appointments period(2025-04-01 to 2025-04-15)"
+    DESCRIPTION: "Retrieves appointments within the specified date range"
+    
+  - COMMAND: "fetch appointments from /api/v1/schedule"
+    DESCRIPTION: "Retrieves today's appointments from the specified API endpoint"
+    
+  - COMMAND: "fetch appointments week from /data/hospital/appointments.json"
+    DESCRIPTION: "Retrieves this week's appointments from a specific JSON file"
+    
+  - COMMAND: "fetch appointments period(2025-04-01 to 2025-04-15) from /data/archive"
+    DESCRIPTION: "Retrieves appointments for a specific period from an archive location"
+
+# Error Handling
+ERRORS:
+  - CODE: 404
+    CONDITION: "No file found at source path"
+    MESSAGE: "No appointment data found for the specified timeframe"
+  
+  - CODE: 400
+    CONDITION: "Invalid entity type"
+    MESSAGE: "Unknown entity type. Please use one of: appointments, patients, encounters"
